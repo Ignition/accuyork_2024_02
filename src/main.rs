@@ -1,24 +1,7 @@
 use accuyork_2024_02::*;
+use std::ops::Add;
 
 fn main() {
-    let x = BinOp::Add;
-    println!("{:?}", x);
-
-    if let BinOp::Add = x {
-        println!("Yes, it was Add");
-    }
-
-    if matches!(x, BinOp::Add) {
-        println!("Yes, it was Add");
-    }
-
-    match x {
-        BinOp::Add => println!("*** HERE ***"),
-        BinOp::Subtract => println!("!!! not here !!!"),
-        BinOp::Multiply => println!("!!! not here !!!"),
-        BinOp::Divide => println!("!!! not here !!!"),
-    }
-
     let x = Expr::Binary(
         Box::from(Expr::Number(1.)),
         BinOp::Add,
@@ -26,16 +9,18 @@ fn main() {
     );
     println!("{:?}", x);
 
-    if let Expr::Binary(_, op, _) = &x {
-        println!("Yes, it was a Binary {:?}", op);
-    }
+    let x = Expr::Binary(Expr::Number(1.).into(), BinOp::Add, Expr::Number(1.).into());
+    println!("{:?}", x);
 
-    if matches!(x, Expr::Binary(_,_,_)) {
-        println!("Yes, it was some kind of a Binary expression");
-    }
+    let x = Expr::Binary(Expr::num(1.).into(), BinOp::Add, Expr::num(1.).into());
+    println!("{:?}", x);
 
-    match x {
-        Expr::Binary(lhs, BinOp::Add, rhs) => println!("{:?} + {:?}", lhs, rhs),
-        _ => panic!("not implemented"),
-    }
+    let x = Expr::binop(Expr::num(1.), BinOp::Add, Expr::num(1.));
+    println!("{:?}", x);
+
+    let x = Expr::num(1.).add(Expr::num(1.));
+    println!("{:?}", x);
+
+    let x = Expr::num(1.) + Expr::num(1.);
+    println!("{:?}", x);
 }
