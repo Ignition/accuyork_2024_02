@@ -1,5 +1,16 @@
-pub fn thing() -> i64 {
-    42
+#[derive(Debug)]
+pub enum Expr {
+    Binary(Box<Expr>, BinOp, Box<Expr>),
+    Number(f64),
+    Identifier(String),
+}
+
+#[derive(Debug)]
+pub enum BinOp {
+    Add,
+    Subtract,
+    Multiply,
+    Divide,
 }
 
 #[cfg(test)]
@@ -8,6 +19,6 @@ mod tests {
 
     #[test]
     fn it_works() {
-        assert_eq!(thing(), 42);
+        assert_eq!(true, true)
     }
 }
