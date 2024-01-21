@@ -1,4 +1,4 @@
-use accuyork_2024_02::*;
+use accuyork_2024_02::ast::*;
 use std::ops::Add;
 
 fn main() {
