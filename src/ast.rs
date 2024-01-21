@@ -16,48 +16,49 @@ pub enum BinOp {
 }
 
 impl Expr {
-    pub fn num(val: f64) -> Expr {
-        Expr::Number(val)
+    #[must_use]
+    pub const fn num(val: f64) -> Self {
+        Self::Number(val)
     }
-
-    pub fn binop(lhs: Expr, op: BinOp, rhs: Expr) -> Expr {
-        Expr::Binary(lhs.into(), op, rhs.into())
+    #[must_use]
+    pub fn binop(lhs: Self, op: BinOp, rhs: Self) -> Self {
+        Self::Binary(lhs.into(), op, rhs.into())
     }
-
-    pub fn ident(val: &str) -> Expr {
-        Expr::Identifier(val.into())
+    #[must_use]
+    pub fn ident(val: &str) -> Self {
+        Self::Identifier(val.into())
     }
 }
 
 impl Add for Expr {
-    type Output = Expr;
+    type Output = Self;
 
     fn add(self, rhs: Self) -> Self::Output {
-        Expr::binop(self, BinOp::Add, rhs)
+        Self::binop(self, BinOp::Add, rhs)
     }
 }
 
 impl Sub for Expr {
-    type Output = Expr;
+    type Output = Self;
 
     fn sub(self, rhs: Self) -> Self::Output {
-        Expr::binop(self, BinOp::Subtract, rhs)
+        Self::binop(self, BinOp::Subtract, rhs)
     }
 }
 
 impl Mul for Expr {
-    type Output = Expr;
+    type Output = Self;
 
     fn mul(self, rhs: Self) -> Self::Output {
-        Expr::binop(self, BinOp::Multiply, rhs)
+        Self::binop(self, BinOp::Multiply, rhs)
     }
 }
 
 impl Div for Expr {
-    type Output = Expr;
+    type Output = Self;
 
     fn div(self, rhs: Self) -> Self::Output {
-        Expr::binop(self, BinOp::Divide, rhs)
+        Self::binop(self, BinOp::Divide, rhs)
     }
 }
 

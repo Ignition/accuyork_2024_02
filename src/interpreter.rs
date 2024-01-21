@@ -7,22 +7,21 @@ pub struct Interpreter {
     values: HashMap<String, f64>,
 }
 
-#[derive(Debug, PartialEq)]
-pub enum InterpreterError {
+#[derive(Debug, PartialEq, Eq)]
+pub enum Error {
     MissingIdentifier,
 }
 
 impl Interpreter {
-    pub fn new(values: HashMap<String, f64>) -> Self {
+    #[must_use]
+    pub const fn new(values: HashMap<String, f64>) -> Self {
         Self { values }
     }
 
-    pub fn without_values() -> Self {
-        Self {
-            values: Default::default(),
-        }
-    }
-    pub fn eval(&self, ast: &Expr) -> Result<f64, InterpreterError> {
+    /// # Errors
+    ///
+    /// Will return `MissingIdentifier` if identifier can not be looked up
+    pub fn eval(&self, ast: &Expr) -> Result<f64, Error> {
         match ast {
             Expr::Binary(lhs, BinOp::Add, rhs) => Ok(self.eval(lhs)? + self.eval(rhs)?),
             Expr::Binary(lhs, BinOp::Subtract, rhs) => Ok(self.eval(lhs)? - self.eval(rhs)?),
@@ -33,11 +32,10 @@ impl Interpreter {
         }
     }
 
-    fn fetch_identifiers_value(&self, name: &String) -> Result<f64, InterpreterError> {
-        match self.values.get(name) {
-            None => Err(InterpreterError::MissingIdentifier),
-            Some(value) => Ok(*value),
-        }
+    fn fetch_identifiers_value(&self, name: &String) -> Result<f64, Error> {
+        self.values
+            .get(name)
+            .map_or(Err(Error::MissingIdentifier), |value| Ok(*value))
     }
 }
 
