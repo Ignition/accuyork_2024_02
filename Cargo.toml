@@ -14,3 +14,10 @@ inkwell = { git = "https://github.com/TheDan64/inkwell", branch = "master", feat
 #pedantic = "deny"
 #nursery = "deny"
 #unwrap_used = "deny"
+
+[dev-dependencies]
+criterion = "0.5.1"
+
+[[bench]]
+name = "my_benchmark"
+harness = false
